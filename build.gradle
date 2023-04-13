@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+group = 'net.aronsonhome.diyadvisor'
+version = '0.1-snapshot'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.+'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+	implementation 'com.amazonaws:aws-java-sdk-core:1.11.+'
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.11.+'
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.slf4j:slf4j-nop:2.0.6'
+    implementation 'org.jsoup:jsoup:1.15.4'
+	testCompileOnly 'org.projectlombok:lombok:1.18.26'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.mockito:mockito-core:5.1.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+build.dependsOn buildZip

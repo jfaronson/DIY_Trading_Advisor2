@@ -1,0 +1,67 @@
+
+
+
+-------- Forwarded Message --------
+Subject: 	Fidelity Alerts: Order Execution
+Date: 	Thu, 30 Mar 2023 09:37:54 -0400
+From: 	Fidelity Investments <Fidelity.Alerts@Fidelity.com>
+Reply-To: 	Fidelity_Investments_Service_DoNotReply@fidelity.com
+To: 	jfaronson@gmail.com
+
+
+
+Fidelity Investments
+Fidelity Alert: Order Execution
+
+Fidelity Investments <https://www.fidelity.com/> 	
+------------------------------------------------------------------------
+	*Subscription Alert* 	
+
+	
+Thu Mar 30, 2023
+09:37:54 a.m. ET
+
+
+
+Order Execution
+
+Account: XXXXX9674
+
+Your order to *BUY:* 300.00 shares of *TQQQ* was *FILLED.*
+*Filled:* 300.00 shares @ $26.70
+*Execution Time:* 9:37 a.m. ET
+*Order Number:* 24904RP7
+
+
+
+View details <https://oltx.fidelity.com/ftgw/fbc/oftop/portfolio#activity>
+
+
+Or log in to Fidelity.com and select Accounts & Trade > Portfolio > 
+Activity & Orders > Orders.
+
+
+
+
+Unsubscribe 
+<https://alertable.fidelity.com/ftgw/alerts/AccountActivityLanding?subs_cd=ACT_BAL_TRD_ACT> 
+   | Send a Secure Message 
+<https://servicemessages.fidelity.com/ftgw/amtd/email/compose>   | 
+Fidelity Alerts User Agreement 
+<https://www.fidelity.com/customer-service/alerts-agreement >
+
+Please do not reply to this email. To verify this email was sent by 
+Fidelity Investments, log in to your account and visit Research > Alerts 
+ > View Alerts History.
+
+*Important information:*
+Fidelity automatically emails certain alerts to customers who have 
+provided an email address.
+
+Fidelity Brokerage Services LLC, Member NYSE, SIPC 
+<https://www.sipc.org>, 900 Salem Street, Smithfield, RI 02917.
+
+537048
+
+© 2023 FMR LLC. All rights reserved.
+
