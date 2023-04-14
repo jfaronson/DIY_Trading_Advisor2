@@ -1,5 +1,17 @@
 /**
- * 
+ * Copyright 2023 John Aronson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package net.aronsonhome.diyadvisor;
 
@@ -15,6 +27,7 @@ import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -99,17 +112,18 @@ public class RiaUtils
 			System.err.println(e);
 			throw new Exception("failed to initialize RiaUtils", e);
 		}
+		DIYUtils.checkForPropertyKeys(props, List.of(KEY_USERNAME, KEY_PASSWORD, KEY_LOGIN_PATH, 
+			KEY_PORTFOLIO_PATH, KEY_API_HOST, TRANSACTION_BODY, KEY_TRANSACTION_PATH), PROPS_FILE);
 	}
 
+	/**
+	 * Log in to the RIA Pro website with username and password
+	 * 
+	 * @return auth key for this session to be used in later API calls
+	 * @throws Exception
+	 */
 	public String login() throws Exception
 	{
-		if (!props.containsKey(KEY_USERNAME))
-			throw new Exception("missing expected property: USERNAME");
-		if (!props.containsKey(KEY_PASSWORD))
-			throw new Exception("missing expected property: PASSWORD");
-		if (!props.containsKey(KEY_LOGIN_PATH))
-			throw new Exception("missing expected property: LOGIN_PATH");
-
 		JsonObject body = new JsonObject();
 		body.addProperty("username", props.getProperty(KEY_USERNAME));
 		body.addProperty("password", props.getProperty(KEY_PASSWORD));
@@ -142,10 +156,9 @@ public class RiaUtils
 	{
 		if(authToken == null)
 			throw new Exception("missing expected args: authToken");
-		if(!props.containsKey(KEY_PORTFOLIO_PATH))
-			throw new Exception("missing expected property: PORTFOLIO_PATH");
 		
-		HttpRequest request = HttpRequest.newBuilder(new URI(props.getProperty(KEY_API_HOST) +props.getProperty(KEY_PORTFOLIO_PATH)))
+		HttpRequest request = HttpRequest.newBuilder(
+			new URI(props.getProperty(KEY_API_HOST) +props.getProperty(KEY_PORTFOLIO_PATH)))
 			.header("Authorization", "Bearer " +authToken)
 			.GET()
 			.build();
@@ -166,12 +179,15 @@ public class RiaUtils
 		return portfolioMap;
 	}
 
-
-	public boolean addTransaction(TradeData info, String authToken) throws Exception
+	/**
+	 * add a trade to an RIA Portfolio
+	 * 
+	 * @param info trade info
+	 * @param authToken auth token for the API call
+	 * @throws Exception
+	 */
+	public void addTransaction(TradeData info, String authToken) throws Exception
 	{
-		if (!props.containsKey(KEY_TRANSACTION_PATH))
-			throw new Exception("missing expected property: TRANSACTION_PATH");
-
 		String body = props.getProperty(TRANSACTION_BODY);
 		String portfolioId = getPortfolioId(info.getAccount(), authToken);
 		if(portfolioId == null)
@@ -197,7 +213,5 @@ public class RiaUtils
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 		if (response.statusCode() > 299)
 			throw new Exception("Unexpected response from RIA Pro add transaction call: " + response.statusCode() + " | " + response.body());
-
-		return true;
 	}
 }

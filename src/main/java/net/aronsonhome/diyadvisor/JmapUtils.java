@@ -1,5 +1,17 @@
 /**
- * 
+ * Copyright 2023 John Aronson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package net.aronsonhome.diyadvisor;
 
@@ -14,6 +26,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -28,6 +41,8 @@ import net.aronsonhome.diyadvisor.data.EmailFilter;
 import net.aronsonhome.diyadvisor.data.MessageData;
 
 /**
+ * Utilities for JMAP Email aPI
+ * 
  * @author trav3
  */
 public class JmapUtils
@@ -44,7 +59,6 @@ public class JmapUtils
 
 	/**
 	 * @throws Exception 
-	 * 
 	 */
 	public JmapUtils() throws Exception
 	{
@@ -63,21 +77,20 @@ public class JmapUtils
 			System.err.println(e);
 			throw new Exception("failed to initialize JMapUtils", e);
 		}
+		DIYUtils.checkForPropertyKeys(props, List.of(AUTH_TOKEN, API_URL, ACCOUNT, 
+			BLOB_URL, ACCOUNT, USERNAME), PROPS_FILE);
 		System.out.println("JmapUtils initialized. AccountId: " +props.getProperty(ACCOUNT));
 	}
 
 	/**
 	 * fetch the session data from the JMap server
 	 * 
-	 * @param props should contain the keys AUTH_TOKEN and SESSION_URL which are used to query the JMap service 
 	 * @return JsonObject containing the session properties for the service and the account associated with the AUTH_TOKEN
 	 * @throws Exception
 	 */
 	@Deprecated
 	public JsonObject fetchSession() throws Exception
 	{
-		if(!props.containsKey(AUTH_TOKEN))
-			throw new Exception("missing expected property: AUTH_TOKEN");
 		if(!props.containsKey(SESSION_URL))
 			throw new Exception("missing expected property: SESSION_URL");
 		
@@ -97,21 +110,12 @@ public class JmapUtils
 	 * fetch the blobIds for all messages that match the subject string of interest and that were received after the startDate for the query
 	 * 
 	 * @param startDate messages more recent than the startDate will be fetched
-	 * @param filters TODO
-	 * @param props should contain the keys AUTH_TOKEN and API_URL which are used to query the JMap service. It should also contain one 
-	 * or more keys SUBJECT_{number} only messages containing one of the subjects will be fetched from the JMap service  
-	 * @return List of blobids for the text bodies of the messages that matched the query conditions (start date and subject)
+	 * @param filters email filters for all the different types of email queries that should be made to the JMap API
+	 * @return map of email message ids -> MessageData objects
 	 * @throws Exception
 	 */
 	public Map<String, MessageData> fetchMessages(Instant startDate, Collection<EmailFilter> filters) throws Exception
-	{
-		if(!props.containsKey(AUTH_TOKEN))
-			throw new Exception("missing expected property: AUTH_TOKEN");
-		if(!props.containsKey(API_URL))
-			throw new Exception("missing expected property: API_URL");
-		if(!props.containsKey(ACCOUNT))
-			throw new Exception("missing expected property: ACCOUNT");
-		
+	{		
 		Map<String,MessageData> blobIds = new HashMap<>();
 		
 		//TODO change this subject to a data object and add the from field as a query
@@ -161,23 +165,13 @@ public class JmapUtils
 
 	/**
 	 * Fetch the message bodies for a list of blobids from the JMap service
-	 * @param blobIds list of blob ids to fetch 
-	 * @param props should contain the keys AUTH_TOKEN and API_URL which are used to query the JMap service. It should also contain one 
-	 * 
-	 * @return List of plain text message bodies 
+	 * @param messages map of messageid -> MessageData. This is the source of of the blobIds for JMAP call to 
+	 * fetch the text body of the messages
+	 * @return The same input list of MessageData with the value objects enriched with the textBody field 
 	 * @throws Exception
 	 */
 	public Map<String, MessageData> fetchMsgBodys(Map<String, MessageData> messages) throws Exception
 	{
-		if(!props.containsKey(AUTH_TOKEN))
-			throw new Exception("missing expected property: AUTH_TOKEN");
-		if(!props.containsKey(BLOB_URL))
-			throw new Exception("missing expected property: BLOB_URL");
-		if(!props.containsKey(ACCOUNT))
-			throw new Exception("missing expected property: ACCOUNT");
-		if(!props.containsKey(USERNAME))
-			throw new Exception("missing expected property: USERNAME");
-		
 		for (Entry<String,MessageData> blobEntry : messages.entrySet())
 		{
 			String blobUrl = props.getProperty(BLOB_URL);

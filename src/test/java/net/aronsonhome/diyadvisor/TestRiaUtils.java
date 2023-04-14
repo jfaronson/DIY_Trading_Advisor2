@@ -1,10 +1,21 @@
 /**
- * 
+ * Copyright 2023 John Aronson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package net.aronsonhome.diyadvisor;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.time.Instant;
@@ -97,28 +108,28 @@ class TestRiaUtils
 		TradeData info = new TradeData("XOM", TransactionType.Buy, "TestPortfolio_XXXX1234", 1, 114.55, 
 			tradeDate, emailReceivedDate);
 		startTime = System.currentTimeMillis();
-		assertTrue(utils.addTransaction(info, authToken));
+		utils.addTransaction(info, authToken);
 		System.out.println("ria add transaction time:  " +(System.currentTimeMillis() -startTime));
 		System.out.println("successfully added trade: " +info);
 		
 		info = new TradeData("XOM", TransactionType.Buy, "TestPortfolio_XXXX4321", 1, 114.55, 
 			tradeDate, emailReceivedDate);
 		startTime = System.currentTimeMillis();
-		assertTrue(utils.addTransaction(info, authToken));
+		utils.addTransaction(info, authToken);
 		System.out.println("ria add transaction time:  " +(System.currentTimeMillis() -startTime));
 		System.out.println("successfully added trade: " +info);
 		
 		info = new TradeData("XOM", TransactionType.Sell, "TestPortfolio_XXXX1234", 1, 114.55, 
 			emailReceivedDate, emailReceivedDate);
 		startTime = System.currentTimeMillis();
-		assertTrue(utils.addTransaction(info, authToken));
+		utils.addTransaction(info, authToken);
 		System.out.println("ria add transaction time:  " +(System.currentTimeMillis() -startTime));
 		System.out.println("successfully added trade: " +info);
 		
 		info = new TradeData("XOM", TransactionType.Sell, "TestPortfolio_XXXX4321", 1, 114.55, 
 			emailReceivedDate, emailReceivedDate);
 		startTime = System.currentTimeMillis();
-		assertTrue(utils.addTransaction(info, authToken));
+		utils.addTransaction(info, authToken);
 		System.out.println("ria add transaction time:  " +(System.currentTimeMillis() -startTime));
 		System.out.println("successfully added trade: " +info);
 	}

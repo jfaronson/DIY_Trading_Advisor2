@@ -1,5 +1,17 @@
 /**
- * 
+ * Copyright 2023 John Aronson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package net.aronsonhome.diyadvisor;
 
@@ -10,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,6 +38,8 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 /**
+ * General Utilities for the DIY Advisor project
+ * 
  * @author trav3
  */
 public class DIYUtils
@@ -42,6 +57,13 @@ public class DIYUtils
 	
 	private AmazonS3 s3client = null;
 
+	/**
+	 * Initialize the S3 client
+	 * CALL THIS ONE TIME BEFORE ANYTHING ELSE 
+	 * 
+	 * @param data map should contain: ACCESS_KEY, SECRET_KEY, AWS_REGION, BUCKET_NAME  
+	 * @throws Exception
+	 */
 	public static void init(Map<String, String> data) throws Exception
 	{
 		if(!data.containsKey(ACCESS_KEY) || !data.containsKey(SECRET_KEY) || !data.containsKey(AWS_REGION) || !data.containsKey(BUCKET_NAME))
@@ -52,6 +74,9 @@ public class DIYUtils
 		region = Regions.fromName(data.get(AWS_REGION).trim());
 	} 
 	
+	/**
+	 * @return the instance of DIY Utils
+	 */
 	public static DIYUtils get()
 	{
 		if(instance == null)
@@ -80,6 +105,13 @@ public class DIYUtils
 			  .build();
 	}
 	
+	/**
+	 * Write a property set to S3 storage 
+	 * 
+	 * @param filename 
+	 * @param props
+	 * @throws IOException
+	 */
 	public void writeToS3File(String filename, Properties props) throws IOException 
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -88,6 +120,13 @@ public class DIYUtils
 	 		new ByteArrayInputStream(baos.toByteArray()), null);
 	}
 	
+	/**
+	 * Get file contents from S3 storage
+	 * 
+	 * @param filename
+	 * @return file contents as a string
+	 * @throws Exception
+	 */
 	public String fetchS3File(String filename) throws Exception
 	{
 		try
@@ -116,11 +155,35 @@ public class DIYUtils
 		}
 	}
 	
+	/**
+	 * Perform substitutions on a template string
+	 * 
+	 * @param template starting template, substitutions look like: {{VAR_NAME}}
+	 * @param variables map of variable name to variable value
+	 * @return template after the substitutions
+	 */
 	public static String regexSubs(String template, Map<String, String> variables)
 	{
 		for (String key : variables.keySet())
 			template = template.replaceAll("\\{\\{" +key +"\\}\\}", variables.get(key));
 	
 		return template;
+	}
+	
+	/**
+	 * check a properties set and ensure that all the expected/required property keys are present
+	 * 
+	 * @param properties 
+	 * @param keys
+	 * @param filename TODO
+	 * @throws Exception
+	 */
+	public static void checkForPropertyKeys(Properties properties, Collection<String> keys, String filename) throws Exception
+	{
+		for (String key : keys)
+		{
+			if(!properties.containsKey(key))
+				throw new Exception(filename +" missing expected property: " +key);
+		}
 	}
 }
