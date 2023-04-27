@@ -35,15 +35,12 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import net.aronsonhome.diyadvisor.data.TradeData;
 
 /**
@@ -51,7 +48,7 @@ import net.aronsonhome.diyadvisor.data.TradeData;
  * 
  * @author trav3
  */
-@Log4j2
+@Slf4j
 public class RiaUtils
 {
 	private static final String KEY_PORTFOLIO_PATH = "PORTFOLIO_PATH";

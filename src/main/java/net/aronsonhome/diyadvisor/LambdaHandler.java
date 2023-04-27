@@ -30,12 +30,14 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import io.microlam.slf4j.simple.SimpleLogger;
 import net.aronsonhome.diyadvisor.data.EmailFilter;
 import net.aronsonhome.diyadvisor.data.MessageData;
 import net.aronsonhome.diyadvisor.data.TradeData;
 
 public class LambdaHandler implements RequestHandler<Map<String, String>, String>
 {
+	private static final String SLF4J_DEFAULT_LOG_LEVEL = "SLF4J_DEFAULT_LOG_LEVEL";
 	private static final String START_DATE_FILE = "startDate.properties";
 	private static final String KEY_START_DATE = "startDate";
 	private static final String SUCCESS = "Success";
@@ -51,6 +53,12 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 	@Override
 	public String handleRequest(Map<String, String> event, Context context)
 	{
+		//map the custom environment var to a system property (because AWS isn't allowing 'SimpleLogger.DEFAULT_LOG_LEVEL_KEY'
+		//as a system property on the cmd line)
+		String defLogLevel = System.getenv(SLF4J_DEFAULT_LOG_LEVEL);
+		if(defLogLevel != null)
+			System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, defLogLevel);
+
 		LambdaLogger logger = context.getLogger();
 		logger.log("Handler invoked");
 

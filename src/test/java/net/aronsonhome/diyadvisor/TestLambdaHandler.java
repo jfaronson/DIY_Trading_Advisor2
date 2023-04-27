@@ -20,7 +20,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-import java.util.Map; 
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Properties;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -46,12 +48,25 @@ class TestLambdaHandler
 	@Mock Context context;
 	@Mock LambdaLogger logger;
 	
+	private static Map<String, String>  event;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception
 	{
+		String aws_properties = System.getProperty("AWS_PROPERTIES");
+		if(aws_properties != null)
+		{
+			Properties props = new Properties();
+			InputStream inputStream = JmapUtils.class.getResourceAsStream(aws_properties);
+			if(inputStream == null)
+				throw new Exception("No properties file found at Java System Property named AWS_PROPERTIES, value : " +aws_properties);
+			props.load(inputStream);
+			event = Map.copyOf((Map)props);
+		}else
+			event = Map.of();
 	}
 
 	/**
@@ -94,7 +109,6 @@ class TestLambdaHandler
 	void testHandleRequest()
 	{
 		LambdaHandler handler = new LambdaHandler();
-		Map<String, String> event = Map.of();
 		assertEquals("Success", handler.handleRequest(event, context));
 	}
 
