@@ -25,3 +25,4 @@ hs_err_pid*
 /bucket-name.txt
 /out.json
 /out.yml
+/build/

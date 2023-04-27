@@ -26,6 +26,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -33,6 +36,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -44,6 +48,8 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
  */
 public class DIYUtils
 {
+	private static Logger logger = LoggerFactory.getLogger(DIYUtils.class);
+	
 	private static final String BUCKET_NAME = "bucketName";
 	private static final String AWS_REGION = "awsRegion";
 	private static final String SECRET_KEY = "secretKey";
@@ -116,8 +122,11 @@ public class DIYUtils
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		props.store(new PrintStream(baos), null);
+		ObjectMetadata meta = new ObjectMetadata();
+		meta.setContentLength(baos.size());
 	 	PutObjectResult result = s3client.putObject(bucketName, filename, 
-	 		new ByteArrayInputStream(baos.toByteArray()), null);
+	 		new ByteArrayInputStream(baos.toByteArray()), meta);
+	 	
 	}
 	
 	/**
@@ -151,6 +160,7 @@ public class DIYUtils
 			if("NoSuchKey".equals(e.getErrorCode()))
 				return null;
 			
+			logger.error("caught exception in fetchS3File", e);
 			throw e;
 		}
 	}

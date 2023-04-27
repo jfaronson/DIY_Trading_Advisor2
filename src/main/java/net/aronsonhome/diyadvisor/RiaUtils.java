@@ -35,11 +35,15 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import lombok.extern.log4j.Log4j2;
 import net.aronsonhome.diyadvisor.data.TradeData;
 
 /**
@@ -47,9 +51,9 @@ import net.aronsonhome.diyadvisor.data.TradeData;
  * 
  * @author trav3
  */
+@Log4j2
 public class RiaUtils
 {
-	//TODO add logging
 	private static final String KEY_PORTFOLIO_PATH = "PORTFOLIO_PATH";
 
 	private static TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager()
@@ -114,6 +118,7 @@ public class RiaUtils
 		}
 		DIYUtils.checkForPropertyKeys(props, List.of(KEY_USERNAME, KEY_PASSWORD, KEY_LOGIN_PATH, 
 			KEY_PORTFOLIO_PATH, KEY_API_HOST, TRANSACTION_BODY, KEY_TRANSACTION_PATH), PROPS_FILE);
+		log.debug("RIA properties: {}", props);
 	}
 
 	/**
@@ -134,7 +139,9 @@ public class RiaUtils
 			.POST(BodyPublishers.ofString(gson.toJson(body)))
 			.build();
 		HttpClient client = HttpClient.newBuilder().sslContext(sslContext).build();
+		log.debug("API request {}", request);
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+		log.debug("API response {}", response);
 		if (response.statusCode() > 299)
 			throw new Exception("Unexpected response from RIA Pro login call: " + response.statusCode() + " | " + response.body());
 
@@ -165,7 +172,9 @@ public class RiaUtils
 		HttpClient client = HttpClient.newBuilder()
 				.sslContext(sslContext)
 				.build();
+		log.debug("API request {}", request);
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+		log.debug("API response {}", response);
 		if(response.statusCode() > 299)
 			throw new Exception("Unexpected response from jmap session call: " +response.statusCode() +" | " +response.body());
 		
@@ -210,7 +219,9 @@ public class RiaUtils
 		HttpClient client = HttpClient.newBuilder()
 				.sslContext(sslContext)
 				.build();
+		log.debug("API request {}", request);
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+		log.debug("API response {}", response);
 		if (response.statusCode() > 299)
 			throw new Exception("Unexpected response from RIA Pro add transaction call: " + response.statusCode() + " | " + response.body());
 	}

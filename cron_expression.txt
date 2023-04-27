@@ -1,0 +1,4 @@
+FYI, This is the Cron expression I used in AWS Event Bridge
+
+Minutes Hours Day of month	Month	Day of week Year
+0 		11-22 ? 			* 		2-6 		*

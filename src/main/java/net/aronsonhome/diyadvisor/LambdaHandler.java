@@ -81,7 +81,7 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			//query for new trade confirm messages 
 			Map<String,MessageData> messages = jmapUtils.fetchMessages(startDate, 
 					emailFilters);
-			logger.log("blobs: " +messages.size());
+			logger.log("messages: " +messages.keySet());
 			if(messages.size() == 0)
 			{
 				logger.log("no trade confirms found, skipping the rest ...");
@@ -89,7 +89,6 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			} 
 
 			messages = jmapUtils.fetchMsgBodys(messages);
-			logger.log("messages: " +messages.size());
 			
 			String authToken = riaUtils.login();
 			Instant lastMessageRcvd = startDate;
@@ -97,6 +96,7 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			for (Entry<String,MessageData> messageEntry : messages.entrySet())
 			{
 				MessageHandler handler = messageEntry.getValue().getHandler();
+				logger.log("parsing message: " +messageEntry.getValue());
 				TradeData trade = handler.parseMessage(messageEntry.getValue());
 				logger.log("parsed trade: " +trade);
 				riaUtils.addTransaction(trade, authToken);

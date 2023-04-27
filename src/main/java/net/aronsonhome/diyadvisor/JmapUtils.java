@@ -37,6 +37,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import lombok.extern.log4j.Log4j2;
 import net.aronsonhome.diyadvisor.data.EmailFilter;
 import net.aronsonhome.diyadvisor.data.MessageData;
 
@@ -45,8 +46,10 @@ import net.aronsonhome.diyadvisor.data.MessageData;
  * 
  * @author trav3
  */
+@Log4j2
 public class JmapUtils
 {
+
 	private static final String USERNAME = "USERNAME";
 	private static final String ACCOUNT = "ACCOUNT";
 	private static final String BLOB_URL = "BLOB_URL";
@@ -62,7 +65,6 @@ public class JmapUtils
 	 */
 	public JmapUtils() throws Exception
 	{
-		//TODO add logging
 		// load properties
 		InputStream inputStream = JmapUtils.class.getResourceAsStream("/" +PROPS_FILE);
 		
@@ -74,12 +76,13 @@ public class JmapUtils
 			props.load(new StringReader(propOverrides));
 		} catch (Exception e)
 		{
-			System.err.println(e);
+			log.error("construction error: ", e);
 			throw new Exception("failed to initialize JMapUtils", e);
 		}
 		DIYUtils.checkForPropertyKeys(props, List.of(AUTH_TOKEN, API_URL, ACCOUNT, 
 			BLOB_URL, ACCOUNT, USERNAME), PROPS_FILE);
-		System.out.println("JmapUtils initialized. AccountId: " +props.getProperty(ACCOUNT));
+		log.info("JmapUtils initialized. AccountId: {}", props.getProperty(ACCOUNT));
+		log.debug("jmap properties: {}", props);
 	}
 
 	/**
@@ -118,8 +121,7 @@ public class JmapUtils
 	{		
 		Map<String,MessageData> blobIds = new HashMap<>();
 		
-		//TODO change this subject to a data object and add the from field as a query
-		//loop based on SUBJECT properties and call fastmail once per subject
+		//loop based on SUBJECT properties and call fastmail once per filter
 		for (EmailFilter filter : filters)
 		{		
 			String body = props.getProperty(API_BODY);
@@ -134,7 +136,10 @@ public class JmapUtils
 				.POST(BodyPublishers.ofString(body))
 				.build();
 			HttpClient client = HttpClient.newBuilder().build();
+			log.debug("API request {}", request);
 			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+			log.debug("API response {}", response);
+
 			if(response.statusCode() > 299)
 				throw new Exception("Unexpected response from jmap session call: " +response.statusCode() +" | " +response.body());
 			
@@ -188,7 +193,9 @@ public class JmapUtils
 				.GET()
 				.build();
 			HttpClient client = HttpClient.newBuilder().build();
+			log.debug("API request {}", request);
 			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+			log.debug("API response {}", response);
 			if(response.statusCode() > 299)
 				throw new Exception("Unexpected response from jmap session call: " +response.statusCode() +" | " +response.body());
 			

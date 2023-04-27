@@ -16,8 +16,8 @@
 package net.aronsonhome.diyadvisor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,7 +101,7 @@ class TestDIYUtils
 		try
 		{
 			s = DIYUtils.get().fetchS3File("foobar.txt");
-			fail("expected failure");
+			assertNull(s, "expected failure");
 		} catch (AmazonS3Exception e)
 		{
 			System.out.println("caught expected exception: " +e);
