@@ -15,8 +15,6 @@
  */
 package net.aronsonhome.diyadvisor;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.StringReader;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -27,14 +25,15 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import io.microlam.slf4j.simple.SimpleLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.aronsonhome.diyadvisor.data.EmailFilter;
 import net.aronsonhome.diyadvisor.data.MessageData;
 import net.aronsonhome.diyadvisor.data.TradeData;
 
+@Slf4j
 public class LambdaHandler implements RequestHandler<Map<String, String>, String>
 {
 	private static final String SLF4J_DEFAULT_LOG_LEVEL = "SLF4J_DEFAULT_LOG_LEVEL";
@@ -59,8 +58,8 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 		if(defLogLevel != null)
 			System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, defLogLevel);
 
-		LambdaLogger logger = context.getLogger();
-		logger.log("Handler invoked");
+//		LambdaLogger logger = context.getLogger();
+		log.info("Handler invoked");
 
 		try
 		{
@@ -89,10 +88,10 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			//query for new trade confirm messages 
 			Map<String,MessageData> messages = jmapUtils.fetchMessages(startDate, 
 					emailFilters);
-			logger.log("messages: " +messages.keySet());
+			log.info("messages: " +messages.keySet());
 			if(messages.size() == 0)
 			{
-				logger.log("no trade confirms found, skipping the rest ...");
+				log.info("no trade confirms found, skipping the rest ...");
 				return SUCCESS;
 			} 
 
@@ -104,11 +103,11 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			for (Entry<String,MessageData> messageEntry : messages.entrySet())
 			{
 				MessageHandler handler = messageEntry.getValue().getHandler();
-				logger.log("parsing message: " +messageEntry.getValue());
+				log.info("parsing message: " +messageEntry.getValue());
 				TradeData trade = handler.parseMessage(messageEntry.getValue());
-				logger.log("parsed trade: " +trade);
+				log.info("parsed trade: " +trade);
 				riaUtils.addTransaction(trade, authToken);
-				logger.log("added trade to RIA: " +trade);
+				log.info("added trade to RIA: " +trade);
 				if(lastMessageRcvd.isBefore(trade.getEmailReceivedTime()))
 					lastMessageRcvd = trade.getEmailReceivedTime();
 			}
@@ -120,15 +119,13 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			return SUCCESS;
 		} catch (Exception e)
 		{
-			logger.log("Error while processing: "+e.getMessage());
+			log.info("Error while processing: "+e.getMessage());
 			if(e.getMessage() != null && e.getMessage().startsWith("init data missing expected keys"))
 			{
-				logger.log("'init data missing expected keys ...' - this message means we are likely in an unconfigured unit test and failure is OK");
+				log.info("'init data missing expected keys ...' - this message means we are likely in an unconfigured unit test and failure is OK");
 				return "Success";
 			}
-			ByteArrayOutputStream stackTrace = new ByteArrayOutputStream();
-			e.printStackTrace(new PrintStream(stackTrace));
-			logger.log(stackTrace.toString());
+			log.error("caught exception: " +e.toString(), e);
 			return "Error";
 		}
 	}

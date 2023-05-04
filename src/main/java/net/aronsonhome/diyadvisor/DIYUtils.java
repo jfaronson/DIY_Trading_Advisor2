@@ -26,9 +26,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -41,19 +38,20 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * General Utilities for the DIY Advisor project
  * 
  * @author trav3
  */
+@Slf4j
 public class DIYUtils
 {
-	private static Logger logger = LoggerFactory.getLogger(DIYUtils.class);
-	
-	private static final String BUCKET_NAME = "bucketName";
-	private static final String AWS_REGION = "awsRegion";
-	private static final String SECRET_KEY = "secretKey";
-	private static final String ACCESS_KEY = "accessKey";
+	public static final String BUCKET_NAME = "bucketName";
+	public static final String AWS_REGION = "awsRegion";
+	public static final String SECRET_KEY = "secretKey";
+	public static final String ACCESS_KEY = "accessKey";
 	
 	private static DIYUtils instance = null;
 	private static String accessKey = null;
@@ -78,6 +76,8 @@ public class DIYUtils
 		bucketName = data.get(BUCKET_NAME);
 		secretKey = data.get(SECRET_KEY);
 		region = Regions.fromName(data.get(AWS_REGION).trim());
+		
+		log.info("DIYUtils.init() accessKey: " +accessKey.substring(0, 4) +"XXXX" +accessKey.substring(accessKey.length() -4));
 	} 
 	
 	/**
@@ -160,7 +160,7 @@ public class DIYUtils
 			if("NoSuchKey".equals(e.getErrorCode()))
 				return null;
 			
-			logger.error("caught exception in fetchS3File", e);
+			log.error("caught exception in fetchS3File", e);
 			throw e;
 		}
 	}

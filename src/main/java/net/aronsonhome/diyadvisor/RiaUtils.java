@@ -110,7 +110,6 @@ public class RiaUtils
 				throw new Exception("missing expected property: API_HOST");
 		} catch (Exception e)
 		{
-			System.err.println(e);
 			throw new Exception("failed to initialize RiaUtils", e);
 		}
 		DIYUtils.checkForPropertyKeys(props, List.of(KEY_USERNAME, KEY_PASSWORD, KEY_LOGIN_PATH, 
