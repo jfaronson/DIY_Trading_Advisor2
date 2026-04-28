@@ -1,325 +1,218 @@
 
+    
+        
+        
+        
+        
+        
+     
 
+        
 
-	
-	
-	
-	
-	
-	Fidelity Investments
+        
 
+        
 
+      
+      
+        
+            
+            
+                
+                    
+                        
+                            Fidelity Alerts: Order Execution
+                        
+                    
+                    
+                        
+                        
+                        
 
-
-
-
-
-
-
-
-
-		
-		
-			
-				
-					
-						
-							
-								
-									
-										
-											
+                            
+                                  
+                            
+                            
+                                
+                                
+                                
+                                    
+                                        
+                                        
+                                            
+                                                
+                                                        
+                                                            
+                                                                
+                                                                    
+                                                                        
+                                                                            
+                                                                                
+                                                                            
+                                                                        
+                                                                    
+                                                                    
+                                                                
+                                                            
+                                                         
+                                                
+                                            
+                                        
+                                        
+                                    
+                                
+                                
+                            
+                        
+                        
+                            
+                                
+                                    
+                                        
+                                             
+                                                
+                                                   Order execution
+                                                
+                                                 
+                                                                                           
+                                             
 												
+
+                                                
+                                                
+                                                                        
+                                                                            
+                                                                                
+                                                                                    
+                                                                                        
+                                                                                                      
+                                                 
+                                                    
+                                                        
+                                                            Account
+                                                        
+                                                        
+                                                            *****9674
+                                                        
+                                                    
+
+                                                    
+                                                        
+                                                            
+															
+                                                            
+															Your order to  sell
+															
+                                                        
+                                                        
+                                                                
+                                                                 
+                                                                
+                                                                
+                                                                 
+                                                                 2020.00 shares of USFR was filled
+                                                                 
+                                                                                                
+                                                              
+                                                        
+                                                    
 													
-														Fidelity Alert: Order Partially Filled
-													
-												
-											
-										
-										
-										
-									
-								
-							
-						
-					
-					 
-					 
-				
-			
-		
-		
-			
-				
-					
-						
-							
-								
-									
-										
-											
-											
-																								
-													
-												
-												
-													Subscription Alert
-												
-																								
-											
-										
-									
-								
-							
-						
-						
-							
-								
-									
-										
-											
-																								Wed Apr 05, 2023
-												09:31:30 a.m. ET
-											
-										
-									
-								
-							
-						
-					
-				
-			
-		
-		
-			
-				
-					
-						
-							
-								
-									
-										
-											
-												
-													
-														
+                                                        
+                                                            
+															Filled
 															
 															
-														
+                                                        
+                                                        
+                                                                
+                                                                 718.00 shares  @ $50.31
+                                                                 
+                                                                
+                                                        
+                                                    
+
+                                                    
+
 													
-													
-														
+                                                        
+                                                            
+															Execution time
 															
-																Order Partially Filled
-															
-														
+                                                        
+                                                        
+                                                                
+                                                                 9:30 a.m. ET                              
+                                                                
+                                                        
+                                                    
 													
+                                                        
+                                                            Order number
+                                                        
+                                                        
+                                                                
+                                                                 15G046R4                              
+                                                                
+                                                        
+                                                    
+                                                
 												
-											
-										
-									
-								
-							
-						
-					
-				
-		
-		
-			
-				
-					
-						
-							
-								
-									
-										
-											
+
 												
-													
-														
-															
-																
-																	
-																		Account: XXXXX9674
+                                                        View details
+                                                    
+                                                    
+                                                Or log in to Fidelity.com and select Accounts & Trade > Portfolio > Activity & Orders > Orders.
 
-
-Your order to SELL: 2000.00 shares of TELL was PARTIALLY FILLED.
-
-Filled: 625.00 shares @ $1.26
-Execution Time: 9:31 a.m. ET
-
-Order Number: D04RRPKV
-
-
-
-
-																	
-																
-																
-																	
-																
-															
-														
-													
-												
-											
-										 										
-											
-												
-													
-														
-															
-																
-																	
-																		
-																			
-																				View details
-																			
-																		
-																	
-																
-																
-																	
-																		
-
-																	
-																
-															
-														
-													
-												
-											
-										  										
-											
-												
-													
-														
-															
-																
-																	
-																		
-																			Or log in to Fidelity.com and select Accounts & Trade > Portfolio > Activity & Orders > Orders.
-
-
-
-
-																		
-																		
-																	
-																
-															
-														
-													
-												
-											
-										 										
-											
-												
-													
-														
-													
-												
-											
-										
-									
-								
-							
-							
-								
-							
-						
-					
-				
-			
-		
-		
-			
-				
-					 
-					 
-					
-						
-							
-								 
-							
-						
-					
-				
-			
-		
-		
-			
-				
-					
-						
-													 
-								
-								 Unsubscribe   |   								 Send a Secure Message   |   								Fidelity Alerts User Agreement								
-								
-							
-													
-					
-				
-			
-		
-		
-			 
-		
-		
-			
-				
-					
-						
-							
-								
-									
-										
-											
-												
-													
-														Please do not reply to this email. To verify this email was sent by Fidelity Investments, log in to your account and visit Research > Alerts > View Alerts History.
-
-
-													
-												
-											
-										
-									
-								
-							
-							
-								
-									
-										
-											
-												
-													
-														
-															
-																
-																	Important information:
+                                            
+                                        
+                                    
+                                
+                            
+                        
+                       
+                            
+                                
+                                    
+                                        
+                                            
+                                                
+                                                
+                                                    
+                                                        
+                                                            Please do not reply to this email. To verify this email was sent by Fidelity Investments, log in to your account and visit News & Research > Alerts > View Your Alerts History.
+                                                            Important information:  
 Fidelity automatically emails certain alerts to customers who have provided an email address.
-																																	
-															
-															
-
-														
-													
-													
-														
-															Fidelity Brokerage Services LLC, Member NYSE, SIPC, 900 Salem Street, Smithfield, RI 02917.
-														
-														
-															
-														
-														
-													
-													
-														
-															537048
-															
-														
-													
-													
-														
-															© 2023 FMR LLC. All rights reserved.
+                                                            Fidelity Brokerage Services LLC, Member NYSE, SIPC, 900 Salem Street, Smithfield, RI 02917.
+                                                            Mon Apr-27-2026 at 9:30:22 a.m. ET
+                                                            537048 
+                                                            © 2026 FMR LLC. All rights reserved.
+                                                        
+                                                        
+                                                        
+                                                            
+                                                                Communications user agreement
+                                                            
+                                                            
+                                                            
+                                                                Chat with us
+                                                            
+                                                            
+                                                                Unsubscribe
+                                                               
+                                                        
+                                                    
+                                                
+                                            
+                                        
+                                    
+                                
+                                         
+                        
+                    
+                
+            
+        
+        
+      
+    

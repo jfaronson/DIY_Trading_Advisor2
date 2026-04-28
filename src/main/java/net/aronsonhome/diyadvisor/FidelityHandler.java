@@ -17,11 +17,13 @@ package net.aronsonhome.diyadvisor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -81,7 +83,11 @@ public class FidelityHandler implements MessageHandler
 			data.setAccount(props.getProperty(ACCOUNT_PREFIX) +m.group("account"));
 			data.setQuantity(Double.parseDouble(m.group("quantity")));
 			data.setPrice(Double.parseDouble(m.group("price")));
-			data.setTradeDate(df.parse(m.group("date")).toInstant());
+			Map<String,Integer> groups = m.namedGroups();
+			if(groups.containsKey("date"))
+				data.setTradeDate(df.parse(m.group("date")).toInstant());
+			else
+				data.setTradeDate(new java.util.Date().toInstant());
 			data.setEmailReceivedTime(message.getEmailReceivedTime());
 		}
 		
@@ -92,9 +98,9 @@ public class FidelityHandler implements MessageHandler
 	{
 		switch(m.group("action"))
 		{
-		case "SELL":
+		case "SELL": case "sell":
 			return TransactionType.Sell;
-		case "BUY":
+		case "BUY": case "buy":
 			return TransactionType.Buy;
 		default:
 			return null;
