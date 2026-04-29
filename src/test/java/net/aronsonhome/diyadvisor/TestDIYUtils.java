@@ -39,6 +39,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 class TestDIYUtils
 {
 	private static final String TEST_PROPERTIES = "fastmail.properties";
+	private static final String AWS_PROPERTIES = "aws.properties";
 	private static Map<String,String> event;
 
 	/**
@@ -48,17 +49,13 @@ class TestDIYUtils
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception
 	{
-		String aws_properties = System.getProperty("AWS_PROPERTIES");
-		if(aws_properties != null)
-		{
-			Properties props = new Properties();
-			InputStream inputStream = JmapUtils.class.getResourceAsStream(aws_properties);
-			if(inputStream == null)
-				throw new Exception("No properties file found at Java System Property named AWS_PROPERTIES, value : " +aws_properties);
-			props.load(inputStream);
-			event = Map.copyOf((Map)props);
-			DIYUtils.init(event);
-		}
+		Properties props = new Properties();
+		InputStream inputStream = JmapUtils.class.getResourceAsStream("/"+AWS_PROPERTIES);
+		if(inputStream == null)
+			throw new Exception("No properties file found at Java System Property named AWS_PROPERTIES, value : " +AWS_PROPERTIES);
+		props.load(inputStream);
+		event = Map.copyOf((Map)props);
+		DIYUtils.init(event);
 	}
 
 	/**

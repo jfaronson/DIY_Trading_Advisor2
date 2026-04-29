@@ -136,14 +136,15 @@ public class JmapUtils
 				.POST(BodyPublishers.ofString(body))
 				.build();
 			HttpClient client = HttpClient.newBuilder().build();
-			log.debug("API request {}", request);
+			log.info("API request {}, body: {}", request, body);
 			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-			log.debug("API response {}", response);
+			log.info("API response {}", response);
 
 			if(response.statusCode() > 299)
 				throw new Exception("Unexpected response from jmap session call: " +response.statusCode() +" | " +response.body());
 			
 			JsonObject jsonBody = JsonParser.parseString(response.body()).getAsJsonObject();
+			log.info("API response body: {}", jsonBody);
 	
 			JsonArray methodResponses = jsonBody.getAsJsonArray("methodResponses");
 	

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'net.aronsonhome.diyadvisor'
-version = '0.2-snapshot'
+version = '0.7-snapshot'
 
 repositories {
     mavenCentral()
@@ -12,8 +12,8 @@ repositories {
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.46'
 	annotationProcessor 'org.projectlombok:lombok:1.18.46'
-	implementation 'com.amazonaws:aws-java-sdk-core:1.11.+'
-	implementation 'com.amazonaws:aws-java-sdk-s3:1.11.+'
+	implementation 'com.amazonaws:aws-java-sdk-core:1.12.+'
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.+'
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
     implementation 'org.apache.logging.log4j:log4j-api:2.+'
     implementation 'org.apache.logging.log4j:log4j-core:2.+'

@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
@@ -59,7 +61,7 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, String
 			System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, defLogLevel);
 
 //		LambdaLogger logger = context.getLogger();
-		log.info("Handler invoked");
+		log.info("Handler invoked, log level {}", defLogLevel);
 
 		try
 		{

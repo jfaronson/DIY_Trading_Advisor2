@@ -17,6 +17,7 @@ package net.aronsonhome.diyadvisor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,7 +44,7 @@ public class FidelityHandler implements MessageHandler
 	private static final String KEY_SUBJECT_2 = "SUBJECT_2";
 	private static final String KEY_SUBJECT_1 = "SUBJECT_1";
 	private static final String KEY_FROM = "FROM";
-	private static final String PROPS_FILE = "/fidelity.properties";
+	private static final String PROPS_FILE = "fidelity.properties";
 	private static final String DATE_FORMAT = "DATE_FORMAT";
 	private static final String ACCOUNT_PREFIX = "ACCOUNT_PREFIX";
 	private static final String TRADE_REGEX = "TRADE_REGEX";
@@ -54,10 +55,12 @@ public class FidelityHandler implements MessageHandler
 		
 	public FidelityHandler() throws Exception
 	{
-		InputStream inputStream = FidelityHandler.class.getResourceAsStream(PROPS_FILE);
+		InputStream inputStream = FidelityHandler.class.getResourceAsStream("/" +PROPS_FILE);
 		try
 		{
 			props.load(inputStream);
+			String propOverrides = DIYUtils.get().fetchS3File(PROPS_FILE);
+			props.load(new StringReader(propOverrides));
 			DIYUtils.checkForPropertyKeys(props, List.of(TRADE_REGEX, DATE_FORMAT, ACCOUNT_PREFIX, 
 				KEY_FROM, KEY_SUBJECT_1, KEY_SUBJECT_2), PROPS_FILE);
 			tradeRegexp = Pattern.compile(props.getProperty(TRADE_REGEX), Pattern.CASE_INSENSITIVE 

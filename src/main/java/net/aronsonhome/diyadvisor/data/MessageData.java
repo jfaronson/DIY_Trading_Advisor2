@@ -54,6 +54,7 @@ public class MessageData
 	@NonNull
 	private MessageHandler handler;
 	/** time the email was received */
+	@NonNull
 	private Instant emailReceivedTime;
 	
 	/**

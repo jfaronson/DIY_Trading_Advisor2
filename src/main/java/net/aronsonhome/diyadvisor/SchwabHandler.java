@@ -17,6 +17,7 @@ package net.aronsonhome.diyadvisor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +41,7 @@ public class SchwabHandler implements MessageHandler
 {
 	private static final String KEY_SUBJECT = "SUBJECT";
 	private static final String KEY_FROM = "FROM";
-	private static final String PROPS_FILE = "/schwab.properties";
+	private static final String PROPS_FILE = "schwab.properties";
 	private static final String DATE_FORMAT = "DATE_FORMAT";
 	private static final String ACCOUNT_PREFIX = "ACCOUNT_PREFIX";
 	private static final String SYMBOL_REGEX = "SYMBOL_REGEX";
@@ -58,10 +59,12 @@ public class SchwabHandler implements MessageHandler
 	
 	public SchwabHandler() throws Exception
 	{
-		InputStream inputStream = FidelityHandler.class.getResourceAsStream(PROPS_FILE);
+		InputStream inputStream = FidelityHandler.class.getResourceAsStream("/" +PROPS_FILE);
 		try
 		{
 			props.load(inputStream);
+			String propOverrides = DIYUtils.get().fetchS3File(PROPS_FILE);
+			props.load(new StringReader(propOverrides));
 			DIYUtils.checkForPropertyKeys(props, List.of(ACCOUNT_PREFIX, KEY_FROM, KEY_SUBJECT, ACCOUNT_REGEX,
 				ACTION_REGEX, SYMBOL_REGEX, TRADE_REGEX, DATE_FORMAT), PROPS_FILE);
 			accountRegex = Pattern.compile(props.getProperty(ACCOUNT_REGEX), Pattern.CASE_INSENSITIVE 
@@ -86,12 +89,11 @@ public class SchwabHandler implements MessageHandler
 	{
 		TradeData data = null;
 		
-		Matcher m = accountRegex.matcher(message.getTextBody());		
+		Matcher m = accountRegex.matcher(message.getSubject());		
 		if(m.find())
 		{
 			data = new TradeData();
 			data.setAccount(props.getProperty(ACCOUNT_PREFIX) +m.group("account"));
-			data.setTradeDate(df.parse(m.group("date")).toInstant());
 		}
 		
 		m = actionRegex.matcher(message.getTextBody());		
@@ -107,6 +109,7 @@ public class SchwabHandler implements MessageHandler
 		{
 			data.setQuantity(Double.parseDouble(m.group("quantity")));
 			data.setPrice(Double.parseDouble(m.group("price")));
+			data.setTradeDate(df.parse(m.group("date")).toInstant());
 		}
 		data.setEmailReceivedTime(message.getEmailReceivedTime());
 

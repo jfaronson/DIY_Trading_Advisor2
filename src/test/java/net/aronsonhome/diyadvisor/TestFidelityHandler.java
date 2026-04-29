@@ -19,8 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.Instant;
+import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterAll;
@@ -41,6 +44,8 @@ class TestFidelityHandler
 {
 
 	private static MessageHandler util;
+	private static final String AWS_PROPERTIES = "aws.properties";
+	private static Map<String,String> event;
 
 	/**
 	 * @throws java.lang.Exception
@@ -48,6 +53,13 @@ class TestFidelityHandler
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception
 	{
+		Properties props = new Properties();
+		InputStream inputStream = JmapUtils.class.getResourceAsStream("/"+AWS_PROPERTIES);
+		if(inputStream == null)
+			throw new Exception("No properties file found at Java System Property named AWS_PROPERTIES, value : " +AWS_PROPERTIES);
+		props.load(inputStream);
+		event = Map.copyOf((Map)props);
+		DIYUtils.init(event);
 		util = new FidelityHandler();
 	}
 
